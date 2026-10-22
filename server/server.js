@@ -3,6 +3,8 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import "dotenv/config";
 import connectDB from "./config/mongoDB.js";
+import authRouter from "./routes/authRoutes.js";
+import errorHandler from "./middleware/errorMiddleware.js";
 
 const app = express();
 
@@ -14,6 +16,8 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
+app.use("/api/auth", authRouter);
+app.use(errorHandler);
 
 // Start server
 const PORT = process.env.PORT || 5000;
