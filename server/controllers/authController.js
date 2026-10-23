@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler";
 import userModel from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import transporter from "../config/nodemailer.js";
 
 const getJwtSecret = () => {
   if (!process.env.JWT_SECRET) {
@@ -55,6 +56,15 @@ export const register = asyncHandler(async (req, res) => {
   });
 
   const token = setAuthCookie(res, user._id, jwtSecret);
+
+  const mailOptions = {
+    from: process.env.SENDER_EMAIL,
+    to: user.email,
+    subject: "Welcome to our ecommerce website",
+    text: `Welcome to our ecommerce website. Your account has been created with email ${user.email}.`,
+  };
+
+  await transporter.sendMail(mailOptions);
 
   res.status(201).json({
     success: true,

@@ -10,7 +10,7 @@ import errorHandler from "./middleware/errorMiddleware.js";
 const app = express();
 
 // Middleware
-app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
+app.use(cors({  credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
